@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.username}}'s Page{% endblock %}
+
+{% block body %}
+<h1>Welcome {{user.username}}!</h1>
+
+<div class="feeback_container">
+{% for feedback in feedbacks %}
+<div class="jumbotron">
+    <h1 class="display-4">{{feedback.title}}</h1>
+    <p class="lead">By {{user.username}}</p>
+    <hr class="my-4">
+    <p>{{feedback.content}}</p>
+    <a class="btn btn-primary" href="/feedback/{{feedback.id}}/update" role="button">Edit</a>
+    <a class="btn btn-danger" href="javascript: document.deleteForm{{feedback.id}}.submit()">Delete</a>
+  <form action="/feedback/{{feedback.id}}/delete" method="POST" name="deleteForm{{feedback.id}}" th:hidden="true">
+    <input hidden type="submit" value="Delete"/>
+  </form>
+  </div>
+{% endfor %}
+<a href="/users/{{user.username}}/feedback/add" class="btn btn-success">Add Feedback</a>
+<a class="btn btn-danger" href="javascript: document.deleteForm{{user.username}}.submit()">Delete User</a>
+  <form action="/users/{{user.username}}/delete" method="POST" name="deleteForm{{user.username}}" th:hidden="true">
+    <input hidden type="submit" value="Delete"/>
+</div>
+
+{% endblock %}
